@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - tutorU</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html"><img src="assets/images/logo.png" alt="tutorU Logo" width="100" height="auto"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="testimonials.html">Testimonials</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">My Account</a>
+                    <div class="dropdown-content">
+                        <a href="login.html">Login</a>
+                        <a href="register.html">Register</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="auth-section">
+        <div class="auth-container">
+            <h2>Register</h2>
+            <form id="register-form">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required>
+                
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+
+                <label for="gender">Gender</label>
+                <div class="gender-options">
+                    <label>
+                        <input type="radio" name="gender" value="male" required> <span>👨</span> Male
+                    </label>
+                    <label>
+                        <input type="radio" name="gender" value="female" required> <span>👩</span> Female
+                    </label>
+                    <label>
+                        <input type="radio" name="gender" value="other" required> <span>🌈</span> Other
+                    </label>
+                </div>
+
+                <button type="submit">Register</button>
+                <div id="register-spinner" class="loading-spinner"></div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 tutorU. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
