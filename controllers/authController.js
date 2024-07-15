@@ -1,0 +1,91 @@
+const User = require('../models/User');
+const generateToken = require('../utils/generateToken');
+
+// User registration
+const registerUser = async (req, res) => {
+    const { name, email, password, phone, gender } = req.body;
+
+    try {
+        const userExists = await User.findOne({ email });
+
+        if (userExists) {
+            res.status(400).json({ message: 'User already exists' });
+        } else {
+            const user = await User.create({
+                name,
+                email,
+                password,
+                phone,
+                gender
+            });
+
+            if (user) {
+                res.status(201).json({
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    token: generateToken(user._id),
+                    message: 'Registration successful. Redirecting to home page...'
+                });
+            } else {
+                res.status(400).json({ message: 'Invalid user data' });
+            }
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// User login
+const authUser = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+
+        if (user && (await user.matchPassword(password))) {
+            res.json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                token: generateToken(user._id),
+                message: 'Login successful. Redirecting to home page...'
+            });
+        } else {
+            res.status(401).json({ message: 'Invalid email or password' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+module.exports = { registerUser, authUser };
+
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
+});
+
+const sendEmail = (to, subject, text) => {
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to,
+        subject,
+        text,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error('Error sending email:', error);
+        } else {
+            console.log('Email sent:', info.response);
+        }
+    });
+};
+
+module.exports = sendEmail;
